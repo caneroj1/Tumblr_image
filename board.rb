@@ -2,8 +2,8 @@ require_relative 'tile.rb'
 
 class Board
 	
-	#initialize function of the board class: this will accept 10 parameters that are each a path to an image
-	#it will then populate the tile array appropriately with each image
+	## initialize function of the board class: this will accept 10 parameters that are each a path to an image
+	# it will then populate the tile array appropriately with each image
 	def initialize(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10)
 		@tile_Array = Array.new(10)
 		@tile_Array[0] = t1
@@ -18,12 +18,20 @@ class Board
 		@tile_Array[9] = t10
 	end
 	
-	#draw function of the board class: this will go through the tile array and draw each tile
+	# draw function of the board class: this will go through the tile array and draw each tile
 	def draw_board
 		for i in 0..9
 			@tile_Array[i].draw
 		end
 	end
+	
+	# this function will flip a given tile to the face indicated by the parameter bool. false = facedown, true = face up
+	def flip_tile(ind, bool)
+		@tile_Array[ind].flip(bool)
+	end
 
-
+	# this function will get the id from the desired tile
+	def get_id(ind)
+		return @tile_Array[ind].return_id
+	end
 end
