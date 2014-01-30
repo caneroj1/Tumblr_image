@@ -27,56 +27,61 @@ class MyWindow < Gosu::Window
    # initialize the window and caption it
    super(1920, 1080, false) 
    self.caption = 'Tumblr Image Match!'
-   
-   # array of image names that will be opened
-   @imgNames = [
-   	'image1.png',
-   	'image2.png',
-   	'image3.png',
-   	'image4.png',
-   	'image5.png',
-   	'image6.png',
-   	'image7.png',
-   	'image8.png',
-   	'image9.png',
-   	'image10.png']
 	
    # create a pseudorandom number generator for shuffling
    prng = Random.new(Random.new_seed())
    
+   imgNames = Hash[
+   	'image1.png' => 0,
+   	'image2.png' => 1,
+   	'image3.png' => 2,
+   	'image4.png' => 3,
+   	'image5.png' => 4,
+   	'image6.png' => 0,
+   	'image7.png' => 1,
+   	'image8.png' => 2,
+   	'image9.png' => 3,
+   	'image10.png' => 4 ]
+   
    # Durstenfield's Shuffling Algorithm 
+   imgArr = imgNames.to_a
    for i in(9).downto(1)
 	j = prng.rand(i)
-	temp = @imgNames[i]
-	@imgNames[i] = @imgNames[j]
-	@imgNames[j] = temp
+	tempK = imgArr[i][0]
+	tempV = imgArr[i][1]
+	imgArr[i][0] = imgArr[j][0]
+	imgArr[i][1] = imgArr[j][1]
+	imgArr[j][0] = tempK
+	imgArr[j][1] = tempV
    end
 	
+   #create an array of keys from the imgNames hash that will be used to set which image each tile has	
+   
    # create the Gosu images so they can be put in to each Tile object
    chk = Gosu::Image.new(self, "check.png", true)
    img0 = Gosu::Image.new(self, "tumblr.png", true) #the back of each card
-   img1 = Gosu::Image.new(self, @imgNames[0], true)
-   img2 = Gosu::Image.new(self, @imgNames[1], true)
-   img3 = Gosu::Image.new(self, @imgNames[2], true)
-   img4 = Gosu::Image.new(self, @imgNames[3], true)
-   img5 = Gosu::Image.new(self, @imgNames[4], true)
-   img6 = Gosu::Image.new(self, @imgNames[5], true)
-   img7 = Gosu::Image.new(self, @imgNames[6], true)
-   img8 = Gosu::Image.new(self, @imgNames[7], true)
-   img9 = Gosu::Image.new(self, @imgNames[8], true)
-   img10 = Gosu::Image.new(self, @imgNames[9], true)
+   img1 = Gosu::Image.new(self, imgArr[0][0], true)
+   img2 = Gosu::Image.new(self, imgArr[1][0], true)
+   img3 = Gosu::Image.new(self, imgArr[2][0], true)
+   img4 = Gosu::Image.new(self, imgArr[3][0], true)
+   img5 = Gosu::Image.new(self, imgArr[4][0], true)
+   img6 = Gosu::Image.new(self, imgArr[5][0], true)
+   img7 = Gosu::Image.new(self, imgArr[6][0], true)
+   img8 = Gosu::Image.new(self, imgArr[7][0], true)
+   img9 = Gosu::Image.new(self, imgArr[8][0], true)
+   img10 = Gosu::Image.new(self, imgArr[9][0], true)
    
    # initialize the game board with the tile objects
-   @game_board = Board.new( Tile.new(img1, 0, 0, img0, @imgNames[0], chk), 
-   							Tile.new(img2, 250, 0, img0, @imgNames[1], chk), 
-   							Tile.new(img3, 500, 0, img0, @imgNames[2], chk), 
-   							Tile.new(img4, 750, 0, img0, @imgNames[3], chk), 
-   							Tile.new(img5, 1000, 0, img0, @imgNames[4], chk), 
-   							Tile.new(img6, 0, 500, img0, @imgNames[5], chk), 
-   							Tile.new(img7, 250, 500, img0, @imgNames[6], chk), 
-   							Tile.new(img8, 500, 500, img0, @imgNames[7], chk), 
-   							Tile.new(img9, 750, 500, img0, @imgNames[8], chk), 
-   							Tile.new(img10, 1000, 500, img0, @imgNames[9], chk) )
+   @game_board = Board.new( Tile.new(img1, 0, 0, img0, imgArr[0][1], chk), 
+   							Tile.new(img2, 250, 0, img0, imgArr[1][1], chk), 
+   							Tile.new(img3, 500, 0, img0, imgArr[2][1], chk), 
+   							Tile.new(img4, 750, 0, img0, imgArr[3][1], chk), 
+   							Tile.new(img5, 1000, 0, img0, imgArr[4][1], chk), 
+   							Tile.new(img6, 0, 500, img0, imgArr[5][1], chk), 
+   							Tile.new(img7, 250, 500, img0, imgArr[6][1], chk), 
+   							Tile.new(img8, 500, 500, img0, imgArr[7][1], chk), 
+   							Tile.new(img9, 750, 500, img0, imgArr[8][1], chk), 
+   							Tile.new(img10, 1000, 500, img0, imgArr[9][1], chk) )
   end
   
   # update function. this function contains all of the game logic
@@ -228,12 +233,9 @@ class MyWindow < Gosu::Window
   def check_match
   	if @phase == 1 and @pickedSecond == true
   		#check if they match
-  		puts "here!"
-  		puts "id1: #{@game_board.get_id(@picked)}\nid2: #{@game_board.get_id(@picked2)}"
   		if(@game_board.get_id(@picked) == @game_board.get_id(@picked2))
-  			puts "matched!!!"
-  			@game_board.match(@picked)
-  			@game_board.match(@picked2)
+  			@game_board.matchTile(@picked)
+  			@game_board.matchTile(@picked2)
   		else
   			# flip the tiles 
   			@game_board.flip_tile(@picked, false)
