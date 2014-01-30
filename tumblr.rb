@@ -9,16 +9,14 @@ client = Tumblr::Client.new({
 })
 
 # Make the request
-#puts client.info 
-
 h = client.posts("codingjester.tumblr.com", :type => "photo", :limit => 10)
 i = 0
 
-imageArray = Array.new(10)
+imageArray = Array.new(5)
 begin
 	imageArray[i] = h["posts"][i]["photos"][0]["alt_sizes"][1]["url"].sub(/_[4-5]00/, '_250')
 	i += 1
-end while i < 10
+end while i < 5
 
 imgNames = [
    	'image1.png',
@@ -30,11 +28,13 @@ imgNames = [
    	'image7.png',
    	'image8.png',
    	'image9.png',
-   	'image10.png', ]
+   	'image10.png']
+   	
 i = 0
 imgNames.each do |imgN|
  open(imgN, 'wb') do |file|
-  file << open(imageArray[i]).read
+  puts i%5
+  file << open(imageArray[i%5]).read
  end
  i += 1
 end

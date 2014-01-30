@@ -34,4 +34,14 @@ class Board
 	def get_id(ind)
 		return @tile_Array[ind].return_id
 	end
+	
+	# this function will set a tile to its "matched" configuration
+	def matchTile(ind)
+		@tile_Array[ind].set_match
+	end
+	
+	# this function will get the matched status of a specific tile and return it
+	def is_matched(ind)
+		return @tile_Array[ind].return_match
+	end
 end

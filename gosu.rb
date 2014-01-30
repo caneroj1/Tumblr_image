@@ -53,7 +53,8 @@ class MyWindow < Gosu::Window
    end
 	
    # create the Gosu images so they can be put in to each Tile object
-   img0 = Gosu::Image.new(self, "tumblr.png", true)
+   chk = Gosu::Image.new(self, "check.png", true)
+   img0 = Gosu::Image.new(self, "tumblr.png", true) #the back of each card
    img1 = Gosu::Image.new(self, @imgNames[0], true)
    img2 = Gosu::Image.new(self, @imgNames[1], true)
    img3 = Gosu::Image.new(self, @imgNames[2], true)
@@ -66,16 +67,16 @@ class MyWindow < Gosu::Window
    img10 = Gosu::Image.new(self, @imgNames[9], true)
    
    # initialize the game board with the tile objects
-   @game_board = Board.new( Tile.new(img1, 0, 0, img0, @imgNames[0]), 
-   							Tile.new(img2, 250, 0, img0, @imgNames[1]), 
-   							Tile.new(img3, 500, 0, img0, @imgNames[2]), 
-   							Tile.new(img4, 750, 0, img0, @imgNames[3]), 
-   							Tile.new(img5, 1000, 0, img0, @imgNames[4]), 
-   							Tile.new(img6, 0, 500, img0, @imgNames[5]), 
-   							Tile.new(img7, 250, 500, img0, @imgNames[6]), 
-   							Tile.new(img8, 500, 500, img0, @imgNames[7]), 
-   							Tile.new(img9, 750, 500, img0, @imgNames[8]), 
-   							Tile.new(img10, 1000, 500, img0, @imgNames[9]) )
+   @game_board = Board.new( Tile.new(img1, 0, 0, img0, @imgNames[0], chk), 
+   							Tile.new(img2, 250, 0, img0, @imgNames[1], chk), 
+   							Tile.new(img3, 500, 0, img0, @imgNames[2], chk), 
+   							Tile.new(img4, 750, 0, img0, @imgNames[3], chk), 
+   							Tile.new(img5, 1000, 0, img0, @imgNames[4], chk), 
+   							Tile.new(img6, 0, 500, img0, @imgNames[5], chk), 
+   							Tile.new(img7, 250, 500, img0, @imgNames[6], chk), 
+   							Tile.new(img8, 500, 500, img0, @imgNames[7], chk), 
+   							Tile.new(img9, 750, 500, img0, @imgNames[8], chk), 
+   							Tile.new(img10, 1000, 500, img0, @imgNames[9], chk) )
   end
   
   # update function. this function contains all of the game logic
@@ -110,52 +111,52 @@ class MyWindow < Gosu::Window
   	if @phase == 0 
 		if button_down? Gosu::MsLeft then
 			# TILE 1
-			if (mouse_x >= 0 and mouse_x <= 250) and (mouse_y >= 0 and mouse_y <= 250) then
+			if (mouse_x >= 0 and mouse_x <= 250) and (mouse_y >= 0 and mouse_y <= 250) and (!@game_board.is_matched(0)) then
 				@game_board.flip_tile(0, true)
 				@picked = 0
 				@phase = 1
 			# TILE 2
-			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y >= 0 and mouse_y <= 250) then
+			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y >= 0 and mouse_y <= 250) and (!@game_board.is_matched(1)) then
 				@game_board.flip_tile(1, true)
 				@picked = 1
 				@phase = 1
 			# TILE 3
-			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y >= 0 and mouse_y <= 250) then
+			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y >= 0 and mouse_y <= 250) and (!@game_board.is_matched(2)) then
 				@game_board.flip_tile(2, true)
 				@picked = 2
 				@phase = 1
 			# TILE 4
-			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y >= 0 and mouse_y <= 250) then
+			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y >= 0 and mouse_y <= 250) and (!@game_board.is_matched(3))then
 				@game_board.flip_tile(3, true)
 				@picked = 3
 				@phase = 1
 			# TILE 5
-			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y >= 0 and mouse_y <= 250) then
+			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y >= 0 and mouse_y <= 250) and (!@game_board.is_matched(4)) then
 				@game_board.flip_tile(4, true)
 				@picked = 4
 				@phase = 1
 			# TILE 6
-			elsif (mouse_x >= 0 and mouse_x <= 250) and (mouse_y > 500 and mouse_y <= 750) then
+			elsif (mouse_x >= 0 and mouse_x <= 250) and (mouse_y > 500 and mouse_y <= 750) and (!@game_board.is_matched(5)) then
 				@game_board.flip_tile(5, true)
 				@picked = 5
 				@phase = 1
 			# TILE 7
-			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y > 500 and mouse_y <= 750) then
+			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y > 500 and mouse_y <= 750) and (!@game_board.is_matched(6)) then
 				@game_board.flip_tile(6, true)
 				@picked = 6
 				@phase = 1
 			# TILE 8
-			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y > 500 and mouse_y <= 750) then
+			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y > 500 and mouse_y <= 750) and (!@game_board.is_matched(7)) then
 				@game_board.flip_tile(7, true)
 				@picked = 7
 				@phase = 1
 			# TILE 9
-			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y > 500 and mouse_y <= 750) then
+			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y > 500 and mouse_y <= 750) and (!@game_board.is_matched(8)) then
 				@game_board.flip_tile(8, true)
 				@picked = 8
 				@phase = 1
 			# TILE 10
-			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y > 500 and mouse_y <= 750) then
+			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y > 500 and mouse_y <= 750) and (!@game_board.is_matched(9)) then
 				@game_board.flip_tile(9, true)
 				@picked = 9
 				@phase = 1
@@ -165,52 +166,52 @@ class MyWindow < Gosu::Window
   	else @phase == 1
   		if button_down? Gosu::MsLeft then
   			# TILE 1
-			if (mouse_x >= 0 and mouse_x <= 250) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 0) then
+			if (mouse_x >= 0 and mouse_x <= 250) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 0) and (!@game_board.is_matched(0)) then
 				@game_board.flip_tile(0, true)
 				@picked2 = 0
 				@pickedSecond = true
 			# TILE 2
-			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 1) then
+			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 1) and (!@game_board.is_matched(1)) then
 				@game_board.flip_tile(1, true)
 				@picked2 = 1
 				@pickedSecond = true
 			# TILE 3
-			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 2) then
+			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 2) and (!@game_board.is_matched(2)) then
 				@game_board.flip_tile(2, true)
 				@picked2 = 2
 				@pickedSecond = true
 			# TILE 4
-			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 3) then
+			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 3) and (!@game_board.is_matched(3)) then
 				@game_board.flip_tile(3, true)
 				@picked2 = 3
 				@pickedSecond = true
 			# TILE 5
-			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 4) then
+			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y >= 0 and mouse_y <= 250) and (@picked != 4) and (!@game_board.is_matched(4)) then
 				@game_board.flip_tile(4, true)
 				@picked2 = 4
 				@pickedSecond = true
 			# TILE 6
-			elsif (mouse_x >= 0 and mouse_x <= 250) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 5) then
+			elsif (mouse_x >= 0 and mouse_x <= 250) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 5) and (!@game_board.is_matched(5)) then
 				@game_board.flip_tile(5, true)
 				@picked2 = 5
 				@pickedSecond = true
 			# TILE 7
-			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 6) then
+			elsif (mouse_x > 250  and mouse_x <= 500) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 6) and (!@game_board.is_matched(6)) then
 				@game_board.flip_tile(6, true)
 				@picked2 = 6
 				@pickedSecond = true
 			# TILE 8
-			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 7) then
+			elsif (mouse_x > 500  and mouse_x <= 750) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 7) and (!@game_board.is_matched(7)) then
 				@game_board.flip_tile(7, true)
 				@picked2 = 7
 				@pickedSecond = true
 			# TILE 9
-			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 8) then
+			elsif (mouse_x > 750  and mouse_x <= 1000) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 8) and (!@game_board.is_matched(8)) then
 				@game_board.flip_tile(8, true)
 				@picked2 = 8
 				@pickedSecond = true
 			# TILE 10
-			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 9) then
+			elsif (mouse_x > 1000  and mouse_x <= 1250) and (mouse_y > 500 and mouse_y <= 750) and (@picked != 9) and (!@game_board.is_matched(9)) then
 				@game_board.flip_tile(9, true)
 				@picked2 = 9
 				@pickedSecond = true
@@ -227,9 +228,12 @@ class MyWindow < Gosu::Window
   def check_match
   	if @phase == 1 and @pickedSecond == true
   		#check if they match
+  		puts "here!"
+  		puts "id1: #{@game_board.get_id(@picked)}\nid2: #{@game_board.get_id(@picked2)}"
   		if(@game_board.get_id(@picked) == @game_board.get_id(@picked2))
-  			#match!
-  			
+  			puts "matched!!!"
+  			@game_board.match(@picked)
+  			@game_board.match(@picked2)
   		else
   			# flip the tiles 
   			@game_board.flip_tile(@picked, false)
