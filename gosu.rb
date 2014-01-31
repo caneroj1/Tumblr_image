@@ -1,12 +1,15 @@
 require 'gosu'
 require_relative 'board.rb'
 require_relative 'tile.rb'
+require_relative 'timer.rb'
 
 class MyWindow < Gosu::Window
   
   ## constants that will represent the background color for the window
-  TOP_COLOR = Gosu::Color.new(0xFF1EB1FA)
-  BOTTOM_COLOR = Gosu::Color.new(0xFF1D4DB5)
+  #TOP_COLOR = Gosu::Color.new(0xFF1EB1FA)
+  #BOTTOM_COLOR = Gosu::Color.new(0xFF1D4DB5)
+  TOP_COLOR = Gosu::Color.new(255, 44, 71, 98)
+  BOTTOM_COLOR = Gosu::Color.new(255, 125, 125, 125)
 
   def initialize(w, h)
    ## define variables for the width and height of the window
@@ -22,7 +25,7 @@ class MyWindow < Gosu::Window
    @phase = 0
    @frameCounter = 0
    
-   # define two variables that indicates the first card that was selected when phase was 0 and the second card selected when 
+   ## define two variables that indicates the first card that was selected when phase was 0 and the second card selected when 
    # phase = 1
    @picked = 0
    @picked2 = 0
@@ -31,9 +34,14 @@ class MyWindow < Gosu::Window
    @pickedSecond = false
    
    # initialize the window and caption it
-   super(@WIDTH, @HEIGHT, false) 
+   super(@width, @height, false) 
    self.caption = 'Tumblr Image Match!'
 	
+   ## initialize a Timer object that will keep track of the time remaining for the given game
+   # also create a Gosu font object that will be passed to the Timer object
+   font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+   @timer = Timer.new(font, @width/2, @height/2)
+  
    # create a pseudorandom number generator for shuffling
    prng = Random.new(Random.new_seed())
    
@@ -91,7 +99,7 @@ class MyWindow < Gosu::Window
    							Tile.new(img10, 1000, 500, img0, imgArr[9][1], chk) )
   end
   
-  # update function. this function contains all of the game logic
+  ## update function. this function contains all of the game logic
   def update
   	## only allow the user to pick tiles if the frameCounter is at 0
   	# this means that the user can only pick tiles when two tiles are not being displayed
@@ -103,16 +111,22 @@ class MyWindow < Gosu::Window
   	 	@frameCounter = 0
   	end
   	
-  	# if the user has picked their second tile then we increment the frame counter to display both of them for a few seconds
+  	## if the user has picked their second tile then we increment the frame counter to display both of them for a few seconds
   	if @phase == 1 and @pickedSecond then
   	 @frameCounter += 1
   	end
+    
+    ## update the Timer object
+    @timer.update
   end
   
-  # draw function. this one calls the game_board object and tells it to draw all of the tiles
+  ## draw function. this one calls the game_board object and tells it to draw all of the tiles
+  # also calls the draw_background function of the window to create the background
+  # calls the Timer object's draw function to draw the time remaining in the game
   def draw
     draw_background
   	@game_board.draw_board
+    @timer.draw
   end
   
   ## pick_tiles function
