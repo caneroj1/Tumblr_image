@@ -1,12 +1,18 @@
 require 'gosu'
-require 'open-uri'
-require_relative 'tumblr.rb'
 require_relative 'board.rb'
 require_relative 'tile.rb'
 
 class MyWindow < Gosu::Window
+  
+  ## constants that will represent the background color for the window
+  TOP_COLOR = Gosu::Color.new(0xFF1EB1FA)
+  BOTTOM_COLOR = Gosu::Color.new(0xFF1D4DB5)
 
-  def initialize
+  def initialize(w, h)
+   ## define variables for the width and height of the window
+   @width = w
+   @height = h  
+   
    ## define a variable that indicates what state the game is in
    # when phase = 0, that indicates that the user is in the "picking" stage of the game and is selecting a face down card for an
    # initial guess
@@ -25,12 +31,13 @@ class MyWindow < Gosu::Window
    @pickedSecond = false
    
    # initialize the window and caption it
-   super(1920, 1080, false) 
+   super(@WIDTH, @HEIGHT, false) 
    self.caption = 'Tumblr Image Match!'
 	
    # create a pseudorandom number generator for shuffling
    prng = Random.new(Random.new_seed())
    
+   # create a hash of the image names that we are using along with their associated id
    imgNames = Hash[
    	'image1.png' => 0,
    	'image2.png' => 1,
@@ -43,19 +50,19 @@ class MyWindow < Gosu::Window
    	'image9.png' => 3,
    	'image10.png' => 4 ]
    
-   # Durstenfield's Shuffling Algorithm 
+   ## Durstenfield's Shuffling Algorithm 
+   # convert the hash from above into a two-dimensional array that will be shuffled in order to
+   # randomize the appearance of the images on the board
    imgArr = imgNames.to_a
    for i in(9).downto(1)
-	j = prng.rand(i)
-	tempK = imgArr[i][0]
-	tempV = imgArr[i][1]
-	imgArr[i][0] = imgArr[j][0]
-	imgArr[i][1] = imgArr[j][1]
-	imgArr[j][0] = tempK
-	imgArr[j][1] = tempV
+     j = prng.rand(i)
+     tempK = imgArr[i][0]
+     tempV = imgArr[i][1]
+     imgArr[i][0] = imgArr[j][0]
+     imgArr[i][1] = imgArr[j][1]
+     imgArr[j][0] = tempK
+     imgArr[j][1] = tempV
    end
-	
-   #create an array of keys from the imgNames hash that will be used to set which image each tile has	
    
    # create the Gosu images so they can be put in to each Tile object
    chk = Gosu::Image.new(self, "check.png", true)
@@ -104,6 +111,7 @@ class MyWindow < Gosu::Window
   
   # draw function. this one calls the game_board object and tells it to draw all of the tiles
   def draw
+    draw_background
   	@game_board.draw_board
   end
   
@@ -250,7 +258,13 @@ class MyWindow < Gosu::Window
   def needs_cursor?
   	true
   end
+  
+  ## function that will be used to draw a blue background with a slight gradient towards the bottom
+  def draw_background
+      draw_quad( 0, 0, TOP_COLOR,
+                 @width, 0, TOP_COLOR,
+                 0, @height, BOTTOM_COLOR,
+                 @width, @height, BOTTOM_COLOR,
+                 -1 )
+   end
 end
-
-window = MyWindow.new
-window.show
