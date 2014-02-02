@@ -4,7 +4,7 @@
 
 <p>I am pulling images from the Tumblr api and they will be used to make an image matching game.</p>
 
-<h2>The gems I am using in this project so far are:</h2>
+<strong>The gems I am using in this project so far are:</strong>
 <ul>
     <li>tumblr_client</li>
     <li>open-uri</li>
