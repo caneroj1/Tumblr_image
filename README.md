@@ -1,5 +1,4 @@
 <h1>Tumblr Image Matcher</h1>
-<hr/>
 
 <p>This is the repository for a game I am making that will utilize the Tumblr api.</p>
 
