@@ -11,7 +11,7 @@ class Timer
   def initialize(fontParam, pX, pY)
     @font = fontParam
     @frameCounter = 0
-    @totalTime = 120
+    @totalTime = 30
     @posX = pX
     @posY = pY
   end
@@ -24,18 +24,20 @@ class Timer
       @frameCounter += 1
     else
       @frameCounter = 0
-      @totalTime -= 1
+      if @totalTime != 0 then
+        @totalTime -= 1
+      end
     end
   end
   
   ## the draw function of the timer utilizes the draw function of the font object that was passed in
   # it will draw the font object with text being the time remaining at location (posX, posY) in the window
   def draw
-    @font.draw("Time: #{@totalTime}", @posX, @posY, 0, 2, 2, 0xFFFFFFFF)
+    @font.draw("Time: #{@totalTime}", @posX - 100, @posY, 0, 2, 2, 0xFFFFFFFF)
   end
   
   ## the return time function of this class will return the time that is remaining in the game
-  def returnTime
+  def return_time
     return @totalTime
   end
   

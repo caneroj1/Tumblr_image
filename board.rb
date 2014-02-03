@@ -1,7 +1,7 @@
 require_relative 'tile.rb'
 
 class Board
-	
+  
 	## initialize function of the board class: this will accept 10 parameters that are each a path to an image
 	# it will then populate the tile array appropriately with each image
 	def initialize(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10)
@@ -16,6 +16,9 @@ class Board
 		@tile_Array[7] = t8
 		@tile_Array[8] = t9
 		@tile_Array[9] = t10
+    
+    # counter that will keep track of how many matches have occurred. when this counter reaches 5 before the time limit ends, the player wins
+    @matchedCount = 0
 	end
 	
 	# draw function of the board class: this will go through the tile array and draw each tile
@@ -44,4 +47,14 @@ class Board
 	def is_matched(ind)
 		return @tile_Array[ind].return_match
 	end
+  
+  # this function will increment the match counter to reflect a user successfully matching tiles
+  def inc_match
+    @matchedCount += 1
+  end
+  
+  # this function will return the amount of matched tiles
+  def return_count
+    return @matchedCount
+  end
 end
