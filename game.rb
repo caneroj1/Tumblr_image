@@ -46,7 +46,6 @@ class Game
                 "image7.png",
                 "image8.png",
                 "image9.png",
-                "image10.png",
-    )
+                "image10.png")
   end
 end
