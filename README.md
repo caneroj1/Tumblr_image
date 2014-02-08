@@ -22,10 +22,10 @@
 <p>If the timer runs out and the user has not matched all of the images, the game is over and a losing screen is displayed. If user matches all of the images, then the winning screen is displayed.</p>
 
 <p>The images that the game downloads from Tumblr are processed and stored on the user's desktop. When the user closes the game window, either prematurely, after losing, or after winning, all of the pictures are deleted from the desktop.</p>
-
+<hr/>
 <h3>Things to implement:</h3>
 <ul>
-	<li><em>DONE</em>Add a game completion state for when the user matches all of the images.</li>
-	<li><em>DONE</em>Add a game failure state for when the user fails to match all of the images in the allotted time.</li>
+	<li><em>DONE</em> -- Add a game completion state for when the user matches all of the images.</li>
+	<li><em>DONE</em> -- Add a game failure state for when the user fails to match all of the images in the allotted time.</li>
 	<li>Fix the way images are being handled. Currently each of the 5 images are being copied to make another image file. This should be changed to just use the 5 images over again.</li>
 </ul>
