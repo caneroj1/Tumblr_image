@@ -3,6 +3,10 @@ require_relative 'board.rb'
 require_relative 'tile.rb'
 require_relative 'timer.rb'
 
+## MY WINDOW CLASS. This class is the main workhorse class of the game. It maintains all of the objects and variables associated with the game, as well
+# as rendering the window and allowing the user to interface with the tiles through picking. Each function is described in a comment block above the
+# function declaration.
+
 class MyWindow < Gosu::Window
   
   ## constants that will represent the background color for the window when the user loses
@@ -51,7 +55,7 @@ class MyWindow < Gosu::Window
    ## initialize a Timer object that will keep track of the time remaining for the given game
    # also create a Gosu font object that will be passed to the Timer object
    font = Gosu::Font.new(self, Gosu::default_font_name, 20)
-   @timer = Timer.new(font, @width/2, @height/2)
+   @timer = Timer.new(font, @width/2, @height/2, 30)
    
    ## create a font for the end of the game, either win or lose
    @endFont = Gosu::Font.new(self, Gosu::default_font_name, 20)
@@ -61,16 +65,16 @@ class MyWindow < Gosu::Window
    
    # create a hash of the image names that we are using along with their associated id
    imgNames = Hash[
-   	'image1.png' => 0,
-   	'image2.png' => 1,
-   	'image3.png' => 2,
-   	'image4.png' => 3,
-   	'image5.png' => 4,
-   	'image6.png' => 0,
-   	'image7.png' => 1,
-   	'image8.png' => 2,
-   	'image9.png' => 3,
-   	'image10.png' => 4 ]
+   	File.join(Dir.home, 'Desktop/image1.png') => 0,
+   	File.join(Dir.home, 'Desktop/image2.png') => 1,
+   	File.join(Dir.home, 'Desktop/image3.png') => 2,
+   	File.join(Dir.home, 'Desktop/image4.png') => 3,
+   	File.join(Dir.home, 'Desktop/image5.png') => 4,
+   	File.join(Dir.home, 'Desktop/image6.png') => 0,
+   	File.join(Dir.home, 'Desktop/image7.png') => 1,
+   	File.join(Dir.home, 'Desktop/image8.png') => 2,
+   	File.join(Dir.home, 'Desktop/image9.png') => 3,
+   	File.join(Dir.home, 'Desktop/image10.png') => 4 ]
    
    ## Durstenfield's Shuffling Algorithm 
    # convert the hash from above into a two-dimensional array that will be shuffled in order to
@@ -87,8 +91,8 @@ class MyWindow < Gosu::Window
    end
    
    # create the Gosu images so they can be put in to each Tile object
-   chk = Gosu::Image.new(self, "check.png", true)
-   img0 = Gosu::Image.new(self, "tumblr.png", true) #the back of each card
+   chk = Gosu::Image.new(self, File.join(File.dirname(File.expand_path('../..', __FILE__)), '/resources/check.png'), true)      # completion image
+   img0 = Gosu::Image.new(self, File.join(File.dirname(File.expand_path('../..', __FILE__)), '/resources/tumblr.png'), true)    # the back of each card
    img1 = Gosu::Image.new(self, imgArr[0][0], true)
    img2 = Gosu::Image.new(self, imgArr[1][0], true)
    img3 = Gosu::Image.new(self, imgArr[2][0], true)
@@ -118,6 +122,7 @@ class MyWindow < Gosu::Window
   	## only allow the user to pick tiles if the frameCounter is at 0
   	# this means that the user can only pick tiles when two tiles are not being displayed
   	# after the 96 frames of display are over, we then call the check_match function and set the frameCounter back to 0 
+    
     if @frameCounter == 0 then 
   		pick_tiles	
   	elsif @frameCounter == 96 then
@@ -137,7 +142,8 @@ class MyWindow < Gosu::Window
   
   ## draw function. this function will draw one of the three backgrounds for the game. if the game is in the LOSE state, if the time has run out and the
   # player has not matched 5 tiles, the player loses. if the player matches 5 tiles before the time runs out, then they win. else, the regular game
-  # board is drawn for the user to play on
+  # board is drawn for the user to play on.
+  # when the user wins or loses, that screen is displayed for 120 frames and the window calls its close function to exit properly
   def draw
     if (!@win and @lose) or (@frameCounter == 0 and @game_board.return_count < 5 and @timer.return_time == 0)
       draw_lose

@@ -1,5 +1,10 @@
 require 'gosu'
 
+## TIMER CLASS. This class handles the timing aspect of the game. The initialize function accepts parameters that pass in a font, the timer location,
+# and the amount of time the game will run for. The update function will increment the frame counter by 1 every frame until it gets to 60. It then resets
+# to zero. The draw function renders the Timer on the game screen at the location established in initialize. The return_time function returns the time
+# left in the game.
+
 class Timer
   
   ## initialize function of the timer class
@@ -8,10 +13,10 @@ class Timer
   # pX = the x coordinate of where the font will display
   # pY = the y coordinate of where the font will display
   # the timer object also maintains a frame count and a count of the total time
-  def initialize(fontParam, pX, pY)
+  def initialize(fontParam, pX, pY, time)
     @font = fontParam
     @frameCounter = 0
-    @totalTime = 30
+    @totalTime = time
     @posX = pX
     @posY = pY
   end

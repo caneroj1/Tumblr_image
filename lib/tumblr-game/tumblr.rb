@@ -1,6 +1,10 @@
 require 'open-uri'
 require 'tumblr_client'
 
+## TUMBLR API OBJECT CLASS. This class handles all of the interfacing with the Tumblr api. The initialize function will open a connection with the
+# Tumblr API. The query function executes a query to get 5 images from Tumblr's API from the blog indicated in the url. The create images function makes 
+# the images that will be used in the game. They are stored on the user's desktop.
+
 class TumblrAPIObject
   
   ## creates a new Tumblr API Object that is able to pull information from Tumblr's servers
@@ -51,20 +55,20 @@ class TumblrAPIObject
   # FUTURE GOAL: INSTEAD OF COPYING EACH IMAGE ONCE, CHANGE THIS FUNCTION TO JUST OPEN THE 5 IMAGES.
   def create_images
     imgNames = Hash[
-       	'image1.png' => 0,
-       	'image2.png' => 1,
-       	'image3.png' => 2,
-       	'image4.png' => 3,
-       	'image5.png' => 4,
-       	'image6.png' => 0,
-       	'image7.png' => 1,
-       	'image8.png' => 2,
-       	'image9.png' => 3,
-       	'image10.png' => 4 ]
+    	File.join(Dir.home, 'Desktop/image1.png') => 0,
+    	File.join(Dir.home, 'Desktop/image2.png') => 1,
+    	File.join(Dir.home, 'Desktop/image3.png') => 2,
+    	File.join(Dir.home, 'Desktop/image4.png') => 3,
+    	File.join(Dir.home, 'Desktop/image5.png') => 4,
+    	File.join(Dir.home, 'Desktop/image6.png') => 0,
+    	File.join(Dir.home, 'Desktop/image7.png') => 1,
+    	File.join(Dir.home, 'Desktop/image8.png') => 2,
+    	File.join(Dir.home, 'Desktop/image9.png') => 3,
+    	File.join(Dir.home, 'Desktop/image10.png') => 4 ]
    	
     i = 0
     imgNames.each_key do |imgN|
-      open(imgN, 'wb') do |file|
+      open(imgN, 'wb', 0666) do |file|
         puts "Loading..."
         file << open(@imageArray[i%5]).read
       end
