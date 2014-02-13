@@ -19,7 +19,7 @@ class Game
   def start
     # ask for user input to get the blog name
     puts "Enter the name of the blog: "
-    blogName = gets.chop
+    blogName = gets.chop.strip
 
     if blogName.empty? then 
       puts "Error: Please enter a Tumblr blog name."
