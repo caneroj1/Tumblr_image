@@ -21,7 +21,7 @@ class Game
     puts "Enter the name of the blog: "
     blogName = gets.chop.strip
 
-    if blogName.empty? then 
+    if blogName.empty? || !(blogName.include? "com") then 
       puts "Error: Please enter a Tumblr blog name."
     else
       ## create a new TumblrAPIObject so we can issue calls to the tumblr api for data
