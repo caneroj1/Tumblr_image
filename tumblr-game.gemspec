@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'tumblr-game'
-  s.version     = '2.0.0'
+  s.version     = '2.0.2'
   s.add_runtime_dependency "faraday", ["=0.8.9"]
   s.add_runtime_dependency "gosu", ["0.7.50"]
   s.add_runtime_dependency "multipart-post", ["1.2.0"]
